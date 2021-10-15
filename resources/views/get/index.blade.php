@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <a href="" class="form-control btn btn-success">Mendan olganlar <i class="fa fa-plus"></i></a>
+    <a href="{{ route('getCreate') }}" class="form-control btn btn-success">Mendan olganlar <i class="fa fa-plus"></i></a>
     <div class="row" style="margin-top: 7px">
         @foreach($gets as $get)
             <div class="col-md-4">

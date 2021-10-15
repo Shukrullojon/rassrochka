@@ -50,12 +50,21 @@ class GetController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request){
-        $validator = Validator::make(Get::$createRules);
+        //dd($request);
+        $validator = Validator::make($request->all(),Get::$createRules);
+
         if($validator->fails()){
             if($validator->fails()) {
                 return back()->withErrors($validator)->withInput();
             }
         }
+        $request->request->add([
+            'status'=>1,
+            'notification'=>1,
+            'get_time' => date('Y-m-d H:i:s'),
+        ]);
+        Get::create($request->all());
+        return redirect()->route('getIndex')->with("success","Saved!");
     }
 
 

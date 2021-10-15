@@ -23,6 +23,8 @@ Route::group(['middleware'=>'auth'],function (){
     Route::get('/archive/index',[\App\Http\Controllers\ArchiveController::class,'index'])->name('archiveIndex');
     //Get
     Route::get('/get/index',[\App\Http\Controllers\GetController::class,'index'])->name('getIndex');
+    Route::get('/get/create',[\App\Http\Controllers\GetController::class,'create'])->name('getCreate');
+    Route::post('/get/store',[\App\Http\Controllers\GetController::class,'store'])->name('getStore');
     //Give
     Route::get('/give/index',[\App\Http\Controllers\GiveController::class,'index'])->name('giveIndex');
     //Statistics

@@ -29,7 +29,16 @@ class Get extends Model
     ];
 
     public static $createRules = [
-
+        'get_name' => 'required',
+        'get_time' => 'required',
+        'phone' => 'required',
+        'product_name' => 'required',
+        'product_lifetime' => 'required',
+        'lifetime_type' => 'required',
+        'day' => 'required',
+        'money_type' => 'required',
+        'price' => 'required',
+        'total_price' => 'required',
     ];
 
     public static $updateRules = [
