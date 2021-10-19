@@ -10,6 +10,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Get;
+use App\Models\GetMoney;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -67,5 +68,36 @@ class GetController extends Controller
         return redirect()->route('getIndex')->with("success","Saved!");
     }
 
+    public function archieve($id){
+        Get::where('id',$id)->update([
+            'status'=>3,
+        ]);
+        return back()->with('success',"Arxiv yuklandi!");
+    }
 
+    public function payment(Request $request){
+        GetMoney::create([
+            'get_id'=>$request->get_id,
+            'price'=>$request->get_price,
+            'get_date'=>date("Y-m-d"),
+            'money_type'=>$request->get_money_type,
+        ]);
+        return redirect()->route('getIndex')->with("success","Saved money!");
+    }
+
+    public function changesms(Request $request){
+        $get_id = $request->get_id;
+        $get = Get::where('id',$get_id)->first();
+        if($get->notification == 1){
+            Get::where('id',$get->id)->update([
+                'notification' => 0,
+            ]);
+            return response()->json(0);
+        }else{
+            Get::where('id',$get->id)->update([
+                'notification' => 1,
+            ]);
+            return response()->json(1);
+        }
+    }
 }

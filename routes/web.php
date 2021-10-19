@@ -21,7 +21,10 @@ Route::group(['middleware'=>'auth'],function (){
     //Get
     Route::get('/get/index',[\App\Http\Controllers\GetController::class,'index'])->name('getIndex');
     Route::get('/get/create',[\App\Http\Controllers\GetController::class,'create'])->name('getCreate');
+    Route::get('/get/archieve/{id}',[\App\Http\Controllers\GetController::class,'archieve'])->name('getArchieve');
     Route::post('/get/store',[\App\Http\Controllers\GetController::class,'store'])->name('getStore');
+    Route::post('/get/payment',[\App\Http\Controllers\GetController::class,'payment'])->name('getPayment');
+    Route::post('/get/changesms',[\App\Http\Controllers\GetController::class,'changesms'])->name('getChangeSms');
     //Give
     Route::get('/give/index',[\App\Http\Controllers\GiveController::class,'index'])->name('giveIndex');
     //Statistics
