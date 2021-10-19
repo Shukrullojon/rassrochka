@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Get;
 use Illuminate\Http\Request;
 
 /**
@@ -22,6 +23,9 @@ class ArchiveController extends Controller
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index(){
-        return view('archive.index');
+        $archieves = Get::where('status',3)->paginate(1);
+        return view('archive.index',[
+            'archieves'=>$archieves
+        ]);
     }
 }
