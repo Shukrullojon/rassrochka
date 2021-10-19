@@ -12,6 +12,7 @@ namespace App\Http\Controllers;
 use App\Models\Get;
 use App\Models\GetMoney;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 /**
@@ -32,8 +33,31 @@ class GetController extends Controller
     /**
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index(){
-        $gets = Get::where('status',1)->orderByDesc('id')->get();
+    public function index(Request $request){
+        $gets = Get::select(
+            'gets.id',
+            'gets.get_time',
+            'gets.phone',
+            'gets.product_name',
+            'gets.lifetime_type',
+            'gets.product_lifetime',
+            'gets.day',
+            'gets.money_type',
+            'gets.price',
+            'gets.total_price',
+            'gets.overpayment',
+            'gets.notification',
+            'gets.comment',
+            'gets.get_name',
+            DB::raw('sum(get_money.price) as get_price')
+        )->leftJoin('get_money',function ($join){
+            $join->on('gets.id','=','get_money.get_id');
+        })->groupBy('gets.id')
+          ->where('gets.status',1)
+          ->where(function ($query) use ($request){
+              $query->where('get_name','LIKE',"%".$request->search."%");
+          })->orderByDesc('gets.id')
+          ->paginate(20);
         return view('get.index',[
             'gets'=>$gets
         ]);
