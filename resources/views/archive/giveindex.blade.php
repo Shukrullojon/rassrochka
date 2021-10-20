@@ -1,6 +1,5 @@
 @extends('layouts.admin')
 
 @section('content')
-    <h1>Archive index</h1>
-    {{ $archieves->links() }}
+    <h1>Archive Give index</h1>
 @endsection

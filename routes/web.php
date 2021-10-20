@@ -17,7 +17,10 @@ Route::get('/', function (){
 Route::group(['middleware'=>'auth'],function (){
     Route::get('/home', [\App\Http\Controllers\HomeController::class,'index'])->name('home');
     // Archive
-    Route::get('/archive/index',[\App\Http\Controllers\ArchiveController::class,'index'])->name('archiveIndex');
+    Route::get('/archive/archievegetindex',[\App\Http\Controllers\ArchiveController::class,'archievegetindex'])->name('archieveGetIndex');
+    Route::get('/archive/archievegiveindex',[\App\Http\Controllers\ArchiveController::class,'archievegiveindex'])->name('archieveGiveIndex');
+    Route::get('/archive/archievegetview/{id}',[\App\Http\Controllers\ArchiveController::class,'archievegetview'])->name('archieveGetView');
+    Route::get('/archive/archievegiveview/{id}',[\App\Http\Controllers\ArchiveController::class,'archievegiveview'])->name('archieveGiveView');
     //Get
     Route::get('/get/index',[\App\Http\Controllers\GetController::class,'index'])->name('getIndex');
     Route::get('/get/create',[\App\Http\Controllers\GetController::class,'create'])->name('getCreate');

@@ -37,13 +37,28 @@
             </a>
         </li>
 
-        <li class="nav-item">
-            <a href="{{ route('archiveIndex') }}" class="nav-link {{ Request::is('archive*') ? 'active':''}}">
+        <li class="nav-item has-treeview {{ Request::is('archive*') ? 'menu-open':''}}">
+            <a href="" class="nav-link {{ Request::is('archive*') ? 'active':''}}">
                 <i class="nav-icon fas fa-archive"></i>
                 <p>
                     Arxiv
+                    <i class="right fas fa-angle-left"></i>
                 </p>
             </a>
+            <ul class="nav nav-treeview" style="{{ Request::is('archive*') ? 'display: block':'display: none'}}">
+                <li class="nav-item">
+                    <a href="{{ route("archieveGetIndex") }}" class="nav-link {{ Request::is('archive/archievegetindex') ? 'active':''}}">
+                        <i class="nav-icon fas fa-plus-square"></i>
+                        <p class="text">Mandan olganlar</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route("archieveGiveIndex") }}" class="nav-link {{ Request::is('archive/archievegiveindex') ? 'active':''}}">
+                        <i class="nav-icon fas fa-minus-square"></i>
+                        <p>Man olganlar</p>
+                    </a>
+                </li>
+            </ul>
         </li>
 
         <li class="nav-item has-treeview">

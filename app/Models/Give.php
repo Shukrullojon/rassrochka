@@ -46,6 +46,6 @@ class Give extends Model
     ];
 
     public function Money(){
-        return $this->hasMany(GiveMoney::class,'give_id','id');
+        return $this->hasMany(GiveMoney::class,'give_id','id')->orderByDesc('id');
     }
 }
