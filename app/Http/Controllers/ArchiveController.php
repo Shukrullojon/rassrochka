@@ -71,7 +71,27 @@ class ArchiveController extends Controller
     }
 
     public function archievegiveview($id){
-        $give = Give::where('id',$id)->first();
+        $give = Give::select(
+            'gives.id',
+            'gives.give_time',
+            'gives.phone',
+            'gives.product_name',
+            'gives.lifetime_type',
+            'gives.product_lifetime',
+            'gives.day',
+            'gives.money_type',
+            'gives.price',
+            'gives.total_price',
+            'gives.overpayment',
+            'gives.notification',
+            'gives.comment',
+            'gives.give_name',
+            DB::raw('sum(give_money.price) as give_price')
+        )->leftJoin('give_money',function ($join){
+            $join->on('gives.id','=','give_money.give_id');
+        })->groupBy('gives.id')
+            ->where('gives.id',$id)
+            ->first();
         return view('archive.giveview',[
             'give'=>$give
         ]);
