@@ -27,6 +27,11 @@ Route::group(['middleware'=>'auth'],function (){
     Route::post('/get/changesms',[\App\Http\Controllers\GetController::class,'changesms'])->name('getChangeSms');
     //Give
     Route::get('/give/index',[\App\Http\Controllers\GiveController::class,'index'])->name('giveIndex');
+    Route::get('/give/create',[\App\Http\Controllers\GiveController::class,'create'])->name('giveCreate');
+    Route::get('/give/archieve/{id}',[\App\Http\Controllers\GiveController::class,'archieve'])->name('giveArchieve');
+    Route::post('/give/store',[\App\Http\Controllers\GiveController::class,'store'])->name('giveStore');
+    Route::post('/give/payment',[\App\Http\Controllers\GiveController::class,'payment'])->name('givePayment');
+    Route::post('/give/changesms',[\App\Http\Controllers\GiveController::class,'changesms'])->name('giveChangeSms');
     //Statistics
     Route::get('/statistics/index',[\App\Http\Controllers\StatisticsController::class,'index'])->name('statisticsIndex');
 });

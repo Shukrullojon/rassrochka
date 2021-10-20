@@ -77,7 +77,6 @@ class GetController extends Controller
     public function store(Request $request){
         //dd($request);
         $validator = Validator::make($request->all(),Get::$createRules);
-
         if($validator->fails()){
             if($validator->fails()) {
                 return back()->withErrors($validator)->withInput();
@@ -86,7 +85,7 @@ class GetController extends Controller
         $request->request->add([
             'status'=>1,
             'notification'=>1,
-            'get_time' => date('Y-m-d H:i:s'),
+
         ]);
         Get::create($request->all());
         return redirect()->route('getIndex')->with("success","Saved!");

@@ -9,7 +9,7 @@ class Give extends Model
 {
     use HasFactory;
 
-    protected $table = 'gets';
+    protected $table = 'gives';
 
     protected $fillable = [
         'give_name',
