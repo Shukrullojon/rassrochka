@@ -6,8 +6,14 @@ use App\Http\Controllers\Blade\RoleController;
 use App\Http\Controllers\Blade\PermissionController;
 use App\Http\Controllers\Blade\ApiUserController;
 
-Auth::routes();
+Route::get('/cache', function() {
+    $exitCode = \Illuminate\Support\Facades\Artisan::call('cache:clear');
+    $exitCode = \Illuminate\Support\Facades\Artisan::call('config:cache');
+    return 'DONE'; //Return anything
+})->name('cache');
 
+
+Auth::routes();
 
 // Welcome page
 Route::get('/', function (){

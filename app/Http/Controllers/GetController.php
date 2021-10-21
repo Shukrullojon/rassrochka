@@ -55,7 +55,7 @@ class GetController extends Controller
         })->groupBy('gets.id')
           ->where('gets.status',1)
           ->where(function ($query) use ($request){
-              $query->where('get_name','LIKE',"%".$request->search."%");
+              $query->where('get_name','LIKE',"'%".$request->search."%'");
           })->orderByDesc('gets.id')
           ->paginate(20);
         return view('get.index',[
