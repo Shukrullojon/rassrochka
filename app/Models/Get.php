@@ -48,4 +48,17 @@ class Get extends Model
     public function Money(){
         return $this->hasMany(GetMoney::class,'get_id','id')->orderByDesc('id');
     }
+
+    public function Com(){
+        return $this->hasMany(GetComment::class,'get_id','id')->orderByDesc('id');
+    }
+
+    public function Check($id){
+        $today = date("Y-m-d");
+        $getMoney = GetMoney::where('get_id',$id)->where('get_date',$today)->first();
+        if(empty($getMoney))
+            return false;
+        else
+            return true;
+    }
 }

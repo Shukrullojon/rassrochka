@@ -48,4 +48,17 @@ class Give extends Model
     public function Money(){
         return $this->hasMany(GiveMoney::class,'give_id','id')->orderByDesc('id');
     }
+
+    public function Comment(){
+        return $this->hasMany(GiveComment::class,'give_id','id')->orderByDesc('id');
+    }
+
+    public function Check($id){
+        $today = date("Y-m-d");
+        $giveMoney = GiveMoney::where('give_id',$id)->where('give_date',$today)->first();
+        if(empty($giveMoney))
+            return false;
+        else
+            return true;
+    }
 }

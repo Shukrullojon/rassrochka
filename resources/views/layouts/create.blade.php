@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@lang('panel.site_title')</title>
+    <link rel="icon" href="{!! asset('image/logo.PNG') !!}"/>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -46,6 +47,14 @@
                 <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
             </li>
         </ul>
+
+        <ul class="navbar-nav ml-auto">
+            <!-- Navbar Search -->
+            <li class="nav-item">
+                <img src="{{ asset('image/image.jpeg')}}" style="float: right !important;" height="40" width="150">
+            </li>
+            <li></li>
+        </ul>
     </nav>
     <!-- /.navbar -->
 
@@ -53,9 +62,9 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
         <a href="" class="brand-link">
-            <img src="{{ asset('consImages/logoU.png') }}" alt="" class="brand-image img-circle elevation-3"
+            <img src="{{ asset('image/logo.PNG') }}" alt="" class="brand-image img-circle elevation-3"
                  style="opacity: .8">
-            <span class="brand-text font-weight-light">Rassrochka</span>
+            <span class="brand-text font-weight-light">Asmo.group</span>
         </a>
 
         <!-- Sidebar -->

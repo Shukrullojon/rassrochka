@@ -21,7 +21,10 @@ Route::get('/', function (){
 })->name('welcome');
 
 Route::group(['middleware'=>'auth'],function (){
+    // Home
     Route::get('/home', [\App\Http\Controllers\HomeController::class,'index'])->name('home');
+    Route::post('/home/payment',[\App\Http\Controllers\HomeController::class,'payment'])->name('homePayment');
+    
     // Archive
     Route::get('/archive/archievegetindex',[\App\Http\Controllers\ArchiveController::class,'archievegetindex'])->name('archieveGetIndex');
     Route::get('/archive/archievegiveindex',[\App\Http\Controllers\ArchiveController::class,'archievegiveindex'])->name('archieveGiveIndex');
@@ -33,6 +36,7 @@ Route::group(['middleware'=>'auth'],function (){
     Route::get('/get/archieve/{id}',[\App\Http\Controllers\GetController::class,'archieve'])->name('getArchieve');
     Route::post('/get/store',[\App\Http\Controllers\GetController::class,'store'])->name('getStore');
     Route::post('/get/payment',[\App\Http\Controllers\GetController::class,'payment'])->name('getPayment');
+    Route::post('/get/comment',[\App\Http\Controllers\GetController::class,'comment'])->name('getComment');
     Route::post('/get/changesms',[\App\Http\Controllers\GetController::class,'changesms'])->name('getChangeSms');
     //Give
     Route::get('/give/index',[\App\Http\Controllers\GiveController::class,'index'])->name('giveIndex');

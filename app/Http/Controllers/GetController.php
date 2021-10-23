@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Get;
 use App\Models\GetMoney;
+use App\Models\GetComment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -53,11 +54,9 @@ class GetController extends Controller
         )->leftJoin('get_money',function ($join){
             $join->on('gets.id','=','get_money.get_id');
         })->groupBy('gets.id')
-          ->where('gets.status',1)
-          ->where(function ($query) use ($request){
-              $query->where('get_name','LIKE',"'%".$request->search."%'");
-          })->orderByDesc('gets.id')
-          ->paginate(20);
+            ->where('gets.status',1)
+            ->orderByDesc('gets.id')
+            ->paginate(30);
         return view('get.index',[
             'gets'=>$gets
         ]);
@@ -85,7 +84,7 @@ class GetController extends Controller
         $request->request->add([
             'status'=>1,
             'notification'=>1,
-
+            'get_time' => date("Y-m-d H:i:s",strtotime($request->get_time))
         ]);
         Get::create($request->all());
         return redirect()->route('getIndex')->with("success","Saved!");
@@ -106,6 +105,14 @@ class GetController extends Controller
             'money_type'=>$request->get_money_type,
         ]);
         return redirect()->route('getIndex')->with("success","Saved money!");
+    }
+
+    public function comment(Request $request){
+        GetComment::create([
+            'get_id'=>$request->get_id,
+            'comment'=>$request->comment,
+        ]);
+        return redirect()->back()->with("success","Saved comment!");
     }
 
     public function changesms(Request $request){

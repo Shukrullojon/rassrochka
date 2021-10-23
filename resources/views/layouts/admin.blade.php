@@ -7,10 +7,10 @@
 	<title>@lang('panel.site_title')</title>
 	<!-- Tell the browser to be responsive to screen width -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="{{asset('plugins/fontawesome-free/css/all.min.css')}}">
+    <link rel="icon" href="{!! asset('image/logo.PNG') !!}"/>
+    <link rel="stylesheet" href="{{asset('plugins/fontawesome-free/css/all.min.css')}}">
     <!-- Daterange picker -->
     <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
-
 
     <!-- Ionicons -->
 	<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -35,12 +35,10 @@
 	<link rel="stylesheet" href="{{ asset('plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css') }}">
 	<!-- SweetAlert2 -->
 	<link rel="stylesheet" href="{{ asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
-	<link rel="icon" href="/consImages/logoU.png ">
-
 </head>
 
 <body class="{{ auth()->user()->theme()['body'] ?? '' }} hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
-<div class="wrapper" style="display: block">
+<div class="wrapper" style="">
 	<!-- Navbar-->
 	<nav class="main-header navbar navbar-expand {{ auth()->user()->theme()['navbar'] ?? 'navbar-light' }}">
 
@@ -50,16 +48,26 @@
 				<a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
 			</li>
 		</ul>
+
+        <ul class="navbar-nav ml-auto">
+            <!-- Navbar Search -->
+            <li class="nav-item">
+                <img src="{{ asset('image/image.jpeg')}}" style="float: right !important;" height="40" width="150">
+            </li>
+            <li></li>
+        </ul>
+
 	</nav>
+
 	<!-- /.navbar -->
 
 	<!-- Main Sidebar Container -->
 	<aside class="main-sidebar sidebar-dark-primary elevation-4">
 		<!-- Brand Logo -->
 		<a href="" class="brand-link">
-			<img src="{{ asset('consImages/logoU.png') }}" alt="" class="brand-image img-circle elevation-3"
+			<img src="{{ asset('image/logo.PNG') }}" alt="" class="brand-image img-circle elevation-3"
 				 style="opacity: .8">
-			<span class="brand-text font-weight-light">Rassrochka</span>
+			<span class="brand-text font-weight-light">Asmo.group</span>
 		</a>
 
 		<!-- Sidebar -->

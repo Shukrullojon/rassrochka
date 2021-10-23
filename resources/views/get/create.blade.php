@@ -190,7 +190,7 @@
         //Date picker
         $('#reservationdate').datetimepicker({
             format: 'L'
-        });
+        }).val();
 
     </script>
 @endsection

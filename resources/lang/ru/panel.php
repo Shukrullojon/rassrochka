@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'site_title' => 'Rassrochka',
+    'site_title' => 'Asmo.group',
 ];
