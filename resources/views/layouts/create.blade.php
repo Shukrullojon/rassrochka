@@ -116,6 +116,9 @@
 <script src="{{ asset('create/dist/js/adminlte.min.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('create/dist/js/demo.js')}}"></script>
+<!-- InputMask -->
+<script src="{{ asset('plugins/moment/moment.min.js')}}"></script>
+<script src="{{ asset('plugins/inputmask/jquery.inputmask.min.js')}}"></script>
 <!-- Page specific script -->
 @yield('scripts')
 </body>

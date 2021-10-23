@@ -56,9 +56,9 @@
                             <p>Berilgan vaqt: {{ date("Y.m.d",strtotime($get->get_time)) }}</p>
                             <p>Sotilgan mulk: {{ $get->product_name }}</p>
                             <p>Sotilgan muddat: {{ $get->product_lifetime }} @if($get->lifetime_type == 1) oy @else hafta @endif</p>
-                            <p>Tannarx: {{ number_format($get->price,'2') }} @if($get->money_type == 1) $ @else so'm @endif</p>
-                            <p>Umumiy narx: {{ number_format($get->total_price,'2') }} @if($get->money_type == 1) $ @else so'm @endif</p>
-                            <p>Peredoplata: {{ number_format($get->overpayment,'2') }} @if($get->money_type == 1) $ @else so'm @endif</p>
+                            <p>Tannarx: {{ number_format($get->price) }} @if($get->money_type == 1) $ @else so'm @endif</p>
+                            <p>Umumiy narx: {{ number_format($get->total_price) }} @if($get->money_type == 1) $ @else so'm @endif</p>
+                            <p>Peredoplata: {{ number_format($get->overpayment) }} @if($get->money_type == 1) $ @else so'm @endif</p>
                         </div>
                         <div class="card-footer">
                             <div class="row">
@@ -115,7 +115,7 @@
                                             <!-- /.modal-dialog -->
                                         </div>
                                         <!-- Modal -->
-                                        <a href="{{ route("getArchieve",$get->id) }}" onclick="return confirm('Are you sure?')" class="btn btn-danger"><i class="fa fa-archive"></i></a>
+                                        <a href="{{ route("getArchieve",$get->id) }}" onclick="return confirm('Arxiv bo\'limiga o\'tkazmoqchimisiz?')" class="btn btn-danger"><i class="fa fa-archive"></i></a>
                                         <button id="smsChange" get_id="{{ $get->id }}" class="sms_change_{{$get->id}} btn @if($get->notification ==1) btn-success @else btn-dark @endif"><i class="fa fa-envelope"></i></button>
                                     </div>
                                 </div>
@@ -129,7 +129,7 @@
                                                 @foreach($get->money as $m)
                                                     @php $true = 0; @endphp
                                                     <li class="list-group-item">
-                                                        {{ date("d/m/y",strtotime($m->get_date)) }} - {{ number_format($m->price,'2') }} @if($m->money_type == 1) $ @else so'm @endif
+                                                        {{ date("d/m/y",strtotime($m->get_date)) }} - {{ number_format($m->price) }} @if($m->money_type == 1) $ @else so'm @endif
                                                     </li>
                                                 @endforeach
                                             @endif

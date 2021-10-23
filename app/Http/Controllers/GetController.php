@@ -55,7 +55,9 @@ class GetController extends Controller
             $join->on('gets.id','=','get_money.get_id');
         })->groupBy('gets.id')
             ->where('gets.status',1)
-            ->orderByDesc('gets.id')
+            ->where(function ($query) use ($request){
+                $query->where('get_name','LIKE',"%".$request->search."%");
+            })->orderByDesc('gets.id')
             ->paginate(30);
         return view('get.index',[
             'gets'=>$gets
@@ -81,10 +83,17 @@ class GetController extends Controller
                 return back()->withErrors($validator)->withInput();
             }
         }
+        $phone = $request->phone;
+        $phone = "+99".$phone;
+        $phone = str_replace("(","",$phone);
+        $phone = str_replace(")","",$phone);
+        $phone = str_replace(" ","",$phone);
+        $phone = str_replace("-","",$phone);
         $request->request->add([
             'status'=>1,
             'notification'=>1,
-            'get_time' => date("Y-m-d H:i:s",strtotime($request->get_time))
+            'get_time' => date("Y-m-d H:i:s",strtotime($request->get_time)),
+            'phone' => $phone,
         ]);
         Get::create($request->all());
         return redirect()->route('getIndex')->with("success","Saved!");
