@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.create')
 
 @section('content')
     <div class="container-fluid">
@@ -39,23 +39,15 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="row">
-                                <div class="col-7">
-                                    @if((($give->overpayment+$give->give_price)/$give->total_price)*100>100)
-                                        <button class="btn btn-success"><i class="fa fa-check"></i></button>
-                                    @endif
-                                    {{ $give->give_name }}
-                                </div>
-                                <div class="col-3">
-                                    <div style="margin-top: 5px" class="progress">
-                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
-                                             aria-valuemin="0" aria-valuemax="100" style="width:{{(($give->overpayment+$give->give_price)/$give->total_price)*100}}%">
-                                            {{ (($give->overpayment+$give->give_price)/$give->total_price)*100 }}%
-                                        </div>
-                                    </div>
+                                <div class="col-10">
+                                    <p>{{ $give->give_name }}</p>
+                                    <p>Ostatka: {{ number_format(($give->overpayment+$give->give_price)-$give->total_price) }} @if($give->money_type == 1) $ @else so'm @endif</p>
                                 </div>
                                 <div class="col-2">
                                     <button class="float-right btn btn-success">
-                                        <a href="{{ $give->phone }}"><i class="fas fa-phone-alt" style="color: green"></i></a>
+                                        <a href="tel:{{ $give->phone }}">
+                                            <i style="color: white" class="fas fa-phone-alt"></i>
+                                        </a>
                                     </button>
                                 </div>
                             </div>
@@ -64,9 +56,9 @@
                             <p>Olingan vaqt: {{ date("Y.m.d",strtotime($give->give_time)) }}</p>
                             <p>Olingan mulk: {{ $give->product_name }}</p>
                             <p>Muddat: {{ $give->product_lifetime }} @if($give->lifetime_type == 1) oy @else hafta @endif</p>
-                            <p>Tannarx: {{ number_format($give->price,'2') }} @if($give->money_type == 1) $ @else so'm @endif</p>
-                            <p>Umumiy narx: {{ number_format($give->total_price,'2') }} @if($give->money_type == 1) $ @else so'm @endif</p>
-                            <p>Peredoplata: {{ number_format($give->overpayment,'2') }} @if($give->money_type == 1) $ @else so'm @endif</p>
+                            <p>Tannarx: {{ number_format($give->price) }} @if($give->money_type == 1) $ @else so'm @endif</p>
+                            <p>Umumiy narx: {{ number_format($give->total_price) }} @if($give->money_type == 1) $ @else so'm @endif</p>
+                            <p>Peredoplata: {{ number_format($give->overpayment) }} @if($give->money_type == 1) $ @else so'm @endif</p>
                             <p>Ostatka: {{ number_format(($give->overpayment+$give->give_price)-$give->total_price) }}</p>
                         </div>
                         <div class="card-footer">
@@ -86,32 +78,46 @@
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalPayment{{$give->id}}">
                                             <i class="fa fa-plus-square"></i>
                                         </button>
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="modalPayment{{$give->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                <form action="{{ route('givePayment') }}" method="POST">
-                                                    @csrf
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalCenterTitle">{{ $give->product_name }}</h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
+
+                                        <div class="modal fade" id="modalPayment{{$give->id}}" role="dialog" aria-labelledby="exampleModalCenterTitle">
+                                            <div class="modal-dialog">
+                                                <div class="modal-body">
+                                                    <form action="{{ route('givePayment') }}" method="POST">
+                                                        @csrf
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalCenterTitle">{{ $give->product_name }}</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <input type="hidden" name="give_id" value="{{ $give->id }}">
+                                                                <input type="hidden" name="give_money_type" value="{{ $give->money_type }}">
+                                                                <label>Narxi</label>
+                                                                <input type="number" name="give_price" class="form-control" placeholder="Narx" required>
+                                                                <label>Vaqti</label>
+                                                                <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                                                                    <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                                                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                                    </div>
+                                                                    <input required type="text" value="{{ old('give_date') }}" name="give_date" class="form-control datetimepicker-input @error('give_date') is-invalid @enderror" data-target="#reservationdate"/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-primary">Save</button>
+                                                            </div>
                                                         </div>
-                                                        <div class="modal-body">
-                                                            <input type="hidden" name="give_id" value="{{ $give->id }}">
-                                                            <input type="hidden" name="give_money_type" value="{{ $give->money_type }}">
-                                                            <input type="text" name="give_price" class="form-control" placeholder="Narx" required>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                            <button type="submit" class="btn btn-primary">Save</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
+                                                    </form>]
+                                                </div>
+                                                <!-- /.modal-content -->
                                             </div>
+                                            <!-- /.modal-dialog -->
                                         </div>
-                                        <a href="{{ route("giveArchieve",$give->id) }}" class="btn btn-danger"><i class="fa fa-archive"></i></a>
+
+                                        <a href="{{ route("giveArchieve",$give->id) }}" onclick="return confirm('Arxiv bo\'limiga o\'tkazmoqchimisiz?')" class="btn btn-danger"><i class="fa fa-archive"></i></a>
+
                                         <button id="smsChange" give_id="{{ $give->id }}" class="sms_change_{{$give->id}} btn @if($give->notification ==1) btn-success @else btn-dark @endif"><i class="fa fa-envelope"></i></button>
                                     </div>
                                 </div>
@@ -125,7 +131,7 @@
                                                 @foreach($give->money as $m)
                                                     @php $true = 0; @endphp
                                                     <li class="list-group-item">
-                                                        {{ date("d/m/y",strtotime($m->give_date)) }} - {{ number_format($m->price,'2') }} @if($m->money_type == 1) $ @else so'm @endif
+                                                        {{ date("d/m/y",strtotime($m->give_date)) }} - {{ number_format($m->price) }} @if($m->money_type == 1) $ @else so'm @endif
                                                     </li>
                                                 @endforeach
                                             @endif
@@ -141,7 +147,42 @@
                             <div class="row" style="margin-top: 7px">
                                 <div class="col-12">
                                     <div id="demo_comment{{$give->id}}" class="collapse">
-                                        Comment: {{ $give->comment }}
+                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalComment{{$give->id}}">
+                                            <i class="fa fa-plus-square"></i>
+                                        </button>
+                                        @foreach($give->com as $c)
+                                            <p>{{ $c->comment }}</p>
+                                        @endforeach
+                                        <p>{{ $give->comment }}</p>
+
+                                        <div class="modal fade" id="modalComment{{$give->id}}" role="dialog" aria-labelledby="exampleModalCenterTitle">
+                                            <div class="modal-dialog">
+                                                <div class="modal-body">
+                                                    <form action="{{ route('giveComment') }}" method="POST">
+                                                        @csrf
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalCenterTitle">{{ $give->product_name }}</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <input type="hidden" name="give_id" value="{{ $give->id }}">
+                                                                <label>Comment</label>
+                                                                <textarea name="comment" required class="form-control" rows="3"></textarea>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-primary">Save</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>]
+                                                </div>
+                                                <!-- /.modal-content -->
+                                            </div>
+                                            <!-- /.modal-dialog -->
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -174,6 +215,11 @@
                     }
                 }
             });
+        });
+
+        //Date picker
+        $('#reservationdate').datetimepicker({
+            format: 'L'
         });
     </script>
 @endsection

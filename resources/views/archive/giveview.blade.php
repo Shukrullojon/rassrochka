@@ -52,7 +52,13 @@
 
                 <tr>
                     <th>Comment</th>
-                    <th>{{ $give->comment }}</th>
+                    <th>
+                        {{ $give->comment }}<br>
+                        @foreach($give->com as $c)
+                            {{ $c->comment }}
+                            <br>
+                        @endforeach
+                    </th>
                 </tr>
 
                 <tr>

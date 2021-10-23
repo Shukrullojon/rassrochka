@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Give;
 use App\Models\GiveMoney;
+use App\Models\GiveComment;
 
 /**
  * Class GiveController
@@ -81,11 +82,20 @@ class GiveController extends Controller
                 return back()->withErrors($validator)->withInput();
             }
         }
+        $phone = $request->phone;
+        $phone = "+99".$phone;
+        $phone = str_replace("(","",$phone);
+        $phone = str_replace(")","",$phone);
+        $phone = str_replace(" ","",$phone);
+        $phone = str_replace("-","",$phone);
+
         $request->request->add([
             'status'=>1,
             'notification'=>1,
             'give_time' => date("Y-m-d", strtotime($request->give_time)),
+            'phone' => $phone,
         ]);
+
         Give::create($request->all());
         return redirect()->route('giveIndex')->with("success","Saved!");
     }
@@ -113,6 +123,18 @@ class GiveController extends Controller
             'money_type'=>$request->give_money_type,
         ]);
         return redirect()->route('giveIndex')->with("success","Saved money!");
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function comment(Request $request){
+        GiveComment::create([
+            'give_id'=>$request->give_id,
+            'comment'=>$request->comment,
+        ]);
+        return redirect()->back()->with("success","Saved comment!");
     }
 
     /**

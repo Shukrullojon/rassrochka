@@ -39,7 +39,12 @@
                 <div class="col-xl-12 col-md-12 col-12 mb-1">
                     <fieldset class="form-group">
                         <label for="basicInput">Telefon</label>
-                        <input type="text" value="{{ old('phone') }}" name="phone" class="form-control @error('phone') is-invalid @enderror" id="basicInput" placeholder="">
+                        <div class="input-group ">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                            </div>
+                            <input type="text" value="{{ old('phone') }}" name="phone" class="form-control @error('phone') is-invalid @enderror" data-inputmask='"mask": "(999) 999-9999"' data-mask>
+                        </div>
                         @error('phone')
                             <p style="color: red" class="error">{{ $message }}</p>
                         @enderror
@@ -77,7 +82,7 @@
                 <div class="col-xl-5 col-md-5 col-5 mb-1">
                     <fieldset class="form-group">
                         <label for="basicInput">Sotilgan muddati</label>
-                        <input type="text" value="{{ old('product_lifetime') }}" name="product_lifetime" class="form-control @error('product_lifetime') is-invalid @enderror" id="basicInput" placeholder="">
+                        <input type="number" value="{{ old('product_lifetime') }}" name="product_lifetime" class="form-control @error('product_lifetime') is-invalid @enderror" id="basicInput" placeholder="">
                         @error('product_lifetime')
                             <p style="color: red" class="error">{{ $message }}</p>
                         @enderror
@@ -87,7 +92,7 @@
                 <div class="col-xl-4 col-md-4 col-4 mb-1">
                     <fieldset class="form-group" id="tolash_kuni">
                         <label for="basicInput">To'lash kuni</label>
-                        <input type="text" value="{{ old('day') }}" name="day" class="form-control @error('day') is-invalid @enderror" id="basicInput" placeholder="">
+                        <input type="number" value="{{ old('day') }}" name="day" class="form-control @error('day') is-invalid @enderror" id="basicInput" placeholder="">
                         @error('day')
                             <p style="color: red" class="error">{{ $message }}</p>
                         @enderror
@@ -114,7 +119,7 @@
                 <div class="col-xl-12 col-md-12 col-12 mb-1">
                     <fieldset class="form-group">
                         <label for="basicInput">Tannarxi</label>
-                        <input type="text" value="{{ old('price') }}" name="price" class="form-control @error('price') is-invalid @enderror" id="basicInput" placeholder="">
+                        <input type="number" value="{{ old('price') }}" name="price" class="form-control @error('price') is-invalid @enderror" id="basicInput" placeholder="">
                         @error('price')
                             <p style="color: red" class="error">{{ $message }}</p>
                         @enderror
@@ -126,7 +131,7 @@
                 <div class="col-xl-12 col-md-12 col-12 mb-1">
                     <fieldset class="form-group">
                         <label for="basicInput">Umumiy narx</label>
-                        <input type="text" value="{{ old('total_price') }}" name="total_price" class="form-control @error('total_price') is-invalid @enderror" id="basicInput" placeholder="">
+                        <input type="number" value="{{ old('total_price') }}" name="total_price" class="form-control @error('total_price') is-invalid @enderror" id="basicInput" placeholder="">
                         @error('total_price')
                         <p style="color: red" class="error">{{ $message }}</p>
                         @enderror
@@ -138,7 +143,7 @@
                 <div class="col-xl-12 col-md-12 col-12 mb-1">
                     <fieldset class="form-group">
                         <label for="basicInput">Peredoplata</label>
-                        <input type="text" value="{{ old('overpayment') }}" name="overpayment" class="form-control @error('overpayment') is-invalid @enderror" id="basicInput" placeholder="">
+                        <input type="number" value="{{ old('overpayment') }}" name="overpayment" class="form-control @error('overpayment') is-invalid @enderror" id="basicInput" placeholder="">
                         @error('overpayment')
                             <p style="color: red" class="error">{{ $message }}</p>
                         @enderror
@@ -150,7 +155,7 @@
                 <div class="col-xl-12 col-md-12 col-12 mb-1">
                     <fieldset class="form-group">
                         <label for="basicInput">Comment</label>
-                        <textarea class="form-control" rows="4"></textarea>
+                        <textarea name="comment" class="form-control" rows="4"></textarea>
                     </fieldset>
                 </div>
             </div>
@@ -190,5 +195,7 @@
         $('#reservationdate').datetimepicker({
             format: 'L'
         });
+
+        $('[data-mask]').inputmask()
     </script>
 @endsection

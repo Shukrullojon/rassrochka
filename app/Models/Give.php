@@ -49,7 +49,7 @@ class Give extends Model
         return $this->hasMany(GiveMoney::class,'give_id','id')->orderByDesc('id');
     }
 
-    public function Comment(){
+    public function Com(){
         return $this->hasMany(GiveComment::class,'give_id','id')->orderByDesc('id');
     }
 

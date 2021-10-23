@@ -155,7 +155,7 @@
                 <div class="col-xl-12 col-md-12 col-12 mb-1">
                     <fieldset class="form-group">
                         <label for="basicInput">Comment</label>
-                        <textarea class="form-control" rows="4"></textarea>
+                        <textarea name="comment" class="form-control" rows="4"></textarea>
                     </fieldset>
                 </div>
             </div>

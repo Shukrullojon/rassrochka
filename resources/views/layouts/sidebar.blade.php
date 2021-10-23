@@ -14,7 +14,7 @@
             <a href="{{ route('getIndex') }}" class="nav-link {{ Request::is('get*') ? 'active':''}}">
                 <i class="nav-icon fas fa-plus-square"></i>
                 <p>
-                    Mandan olganlar
+                    Mendan olganlar
                 </p>
             </a>
         </li>
@@ -23,7 +23,7 @@
             <a href="{{ route('giveIndex') }}" class="nav-link {{ Request::is('give*') ? 'active':''}}">
                 <i class="nav-icon fas fa-minus-square"></i>
                 <p>
-                    Man olganlar
+                    Men olganlar
                 </p>
             </a>
         </li>
@@ -49,13 +49,13 @@
                 <li class="nav-item">
                     <a href="{{ route("archieveGetIndex") }}" class="nav-link {{ Request::is('archive/archievegetindex') ? 'active':''}}">
                         <i class="nav-icon fas fa-plus-square"></i>
-                        <p class="text">Mandan olganlar</p>
+                        <p class="text">Mendan olganlar</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route("archieveGiveIndex") }}" class="nav-link {{ Request::is('archive/archievegiveindex') ? 'active':''}}">
                         <i class="nav-icon fas fa-minus-square"></i>
-                        <p>Man olganlar</p>
+                        <p>Men olganlar</p>
                     </a>
                 </li>
             </ul>
@@ -65,7 +65,7 @@
             <a href="" class="nav-link">
                 <i class="fas fa-palette"></i>
                 <p>
-                    @lang('global.theme')
+                    Tema
                     <i class="right fas fa-angle-left"></i>
                 </p>
             </a>
@@ -74,12 +74,6 @@
                     <a href="{{ route('userSetTheme',[auth()->id(),'theme' => 'default']) }}" class="nav-link">
                         <i class="nav-icon fas fa-circle text-info"></i>
                         <p class="text">Default {{ auth()->user()->theme == 'default' ? '✅':'' }}</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('userSetTheme',[auth()->id(),'theme' => 'light']) }}" class="nav-link">
-                        <i class="nav-icon fas fa-circle text-white"></i>
-                        <p>Light {{ auth()->user()->theme == 'light' ? '✅':'' }}</p>
                     </a>
                 </li>
                 <li class="nav-item">

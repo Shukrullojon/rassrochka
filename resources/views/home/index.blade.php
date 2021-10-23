@@ -127,6 +127,7 @@
                             <th>Nomi</th>
                             <th>Mulk</th>
                             <th>Ostatka</th>
+                            <th></th>
                         </tr>
 
                         @foreach($today_month_give as $tmg)
@@ -181,7 +182,7 @@
                         @endforeach
 
                         @foreach($today_week_give as $twg)
-                            @if(!$tmg->Check($tmg->id))
+                            @if(!$twg->Check($twg->id))
                                 <tr>
                                     <td>{{ $twg->give_name }}</td>
                                     <td>{{ $twg->product_name }}</td>

@@ -99,6 +99,8 @@ class HomeController extends Controller
         //$today_month_give = Give::where('status',1)->where('lifetime_type',1)->where('day',date('d'))->get();
         $today_week_give = Give::where('status',1)->where('lifetime_type',2)->where('day',$day_number)->get();
 
+        //dd($today_week_give);
+
         return view('home.index',[
             'today_month_get'=>$today_month_get,
             'today_week_get'=>$today_week_get,

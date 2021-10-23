@@ -44,6 +44,7 @@ Route::group(['middleware'=>'auth'],function (){
     Route::get('/give/archieve/{id}',[\App\Http\Controllers\GiveController::class,'archieve'])->name('giveArchieve');
     Route::post('/give/store',[\App\Http\Controllers\GiveController::class,'store'])->name('giveStore');
     Route::post('/give/payment',[\App\Http\Controllers\GiveController::class,'payment'])->name('givePayment');
+    Route::post('/give/comment',[\App\Http\Controllers\GiveController::class,'comment'])->name('giveComment');
     Route::post('/give/changesms',[\App\Http\Controllers\GiveController::class,'changesms'])->name('giveChangeSms');
     //Statistics
     Route::get('/statistics/index',[\App\Http\Controllers\StatisticsController::class,'index'])->name('statisticsIndex');
