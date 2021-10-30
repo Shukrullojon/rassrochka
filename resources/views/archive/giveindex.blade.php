@@ -14,8 +14,12 @@
                         <td>{{ $give->give_name }}</td>
                         <td>{{ $give->product_name }}</td>
                         <td>
-                            <a href="{{ route('archieveGiveView',$give->id) }}">
+                            <a href="{{ route('archieveGiveView',$give->id) }}" class="btn btn-success">
                                 <i class="fa fa-eye"></i>
+                            </a>
+
+                            <a href="{{ route('givedelete',$give->id) }}" class="btn btn-danger" onclick="return confirm('O\'chirmoqchimisiz?')">
+                                <i class="fa fa-trash"></i>
                             </a>
                         </td>
                     </tr>

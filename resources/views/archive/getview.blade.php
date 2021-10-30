@@ -30,17 +30,22 @@
 
                 <tr>
                     <th><p>Tannarx</th>
-                    <th><p>{{ number_format($get->price,'2') }} @if($get->money_type == 1) $ @else so'm @endif</p></th>
+                    <th><p>{{ number_format($get->price) }} @if($get->money_type == 1) $ @else so'm @endif</p></th>
                 </tr>
 
                 <tr>
                     <th>Umumiy narx</th>
-                    <th>{{ number_format($get->total_price,'2') }} @if($get->money_type == 1) $ @else so'm @endif</th>
+                    <th>{{ number_format($get->total_price) }} @if($get->money_type == 1) $ @else so'm @endif</th>
                 </tr>
 
                 <tr>
                     <th>Peredoplata</th>
-                    <th>{{ number_format($get->overpayment,'2') }} @if($get->money_type == 1) $ @else so'm @endif</th>
+                    <th>{{ number_format($get->overpayment) }} @if($get->money_type == 1) $ @else so'm @endif</th>
+                </tr>
+
+                <tr>
+                    <th>Oylik to'lov</th>
+                    <th>{{ number_format($get->month_pay) }} @if($get->money_type == 1) $ @else so'm @endif</th>
                 </tr>
 
                 <tr>
@@ -66,7 +71,7 @@
                     <th>
                         @foreach($get->money as $m)
                             <li class="list-group-item">
-                                {{ date("d/m/y",strtotime($m->get_date)) }} - {{ number_format($m->price,'2') }} @if($m->money_type == 1) $ @else so'm @endif
+                                {{ date("d/m/y",strtotime($m->get_date)) }} - {{ number_format($m->price) }} @if($m->money_type == 1) $ @else so'm @endif
                             </li>
                         @endforeach
                     </th>

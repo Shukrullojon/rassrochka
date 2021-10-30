@@ -154,7 +154,7 @@ class UserController extends Controller
         {
             $user = User::findOrFail($id);
             $user->setTheme($request->theme);
-            message_set("Theme `$request->theme` is installed!",'success',1);
+            //message_set("Theme `$request->theme` is installed!",'success',1);
         }
 
         return redirect()->back();

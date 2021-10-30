@@ -14,8 +14,12 @@
                         <td>{{ $get->get_name }}</td>
                         <td>{{ $get->product_name }}</td>
                         <td>
-                            <a href="{{ route('archieveGetView',$get->id) }}">
+                            <a href="{{ route('archieveGetView',$get->id) }}" class="btn btn-success">
                                 <i class="fa fa-eye"></i>
+                            </a>
+
+                            <a href="{{ route('getdelete',$get->id) }}" class="btn btn-danger" onclick="return confirm('O\'chirmoqchimisiz?')">
+                                <i class="fa fa-trash"></i>
                             </a>
                         </td>
                     </tr>

@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Get;
+use App\Models\GetMoney;
+use App\Models\GetComment;
 use App\Models\Give;
+use App\Models\GiveMoney;
+use App\Models\GiveComment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -43,6 +47,10 @@ class ArchiveController extends Controller
         ]);
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function archievegetview($id){
         $get = Get::select(
             'gets.id',
@@ -56,6 +64,7 @@ class ArchiveController extends Controller
             'gets.price',
             'gets.total_price',
             'gets.overpayment',
+            'gets.month_pay',
             'gets.notification',
             'gets.comment',
             'gets.get_name',
@@ -70,6 +79,10 @@ class ArchiveController extends Controller
         ]);
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function archievegiveview($id){
         $give = Give::select(
             'gives.id',
@@ -83,6 +96,7 @@ class ArchiveController extends Controller
             'gives.price',
             'gives.total_price',
             'gives.overpayment',
+            'gives.month_pay',
             'gives.notification',
             'gives.comment',
             'gives.give_name',
@@ -95,5 +109,33 @@ class ArchiveController extends Controller
         return view('archive.giveview',[
             'give'=>$give
         ]);
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function getdelete($id){
+        $get = Get::where('id',$id)->first();
+        if($get){
+            $get->delete();
+            $get_money = GetMoney::where('get_id',$get->id)->delete();
+            $get_comment = GetComment::where('get_id',$get->id)->delete();
+        }
+        return redirect()->back()->with('success', 'Delete.');
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function givedelete($id){
+        $give = Give::where('id',$id)->first();
+        if($give){
+            $give->delete();
+            $give_money = GiveMoney::where('give_id',$give->id)->delete();
+            $give_comment = GiveComment::where('give_id',$give->id)->delete();
+        }
+        return redirect()->back()->with('success', 'Delete.');
     }
 }

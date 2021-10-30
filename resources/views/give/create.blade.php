@@ -43,7 +43,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-phone"></i></span>
                             </div>
-                            <input type="text" value="{{ old('phone') }}" name="phone" class="form-control @error('phone') is-invalid @enderror" data-inputmask='"mask": "(999) 999-9999"' data-mask>
+                            <input type="number" value="{{ old('phone') }}" name="phone" class="form-control @error('phone') is-invalid @enderror" data-inputmask='"mask": "(999) 999-9999"' data-mask>
                         </div>
                         @error('phone')
                             <p style="color: red" class="error">{{ $message }}</p>
@@ -154,6 +154,18 @@
             <div class="row">
                 <div class="col-xl-12 col-md-12 col-12 mb-1">
                     <fieldset class="form-group">
+                        <label for="basicInput">Oylik to'lov</label>
+                        <input type="number" value="{{ old('month_pay') }}" name="month_pay" class="form-control @error('month_pay') is-invalid @enderror" id="basicInput" placeholder="">
+                        @error('month_pay')
+                        <p style="color: red" class="error">{{ $message }}</p>
+                        @enderror
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xl-12 col-md-12 col-12 mb-1">
+                    <fieldset class="form-group">
                         <label for="basicInput">Comment</label>
                         <textarea name="comment" class="form-control" rows="4"></textarea>
                     </fieldset>
@@ -193,7 +205,7 @@
 
         //Date picker
         $('#reservationdate').datetimepicker({
-            format: 'L'
+            format:'DD.MM.YYYY',
         });
 
         $('[data-mask]').inputmask()

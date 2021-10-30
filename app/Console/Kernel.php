@@ -4,6 +4,8 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Console\Commands\SendMessage;
+use App\Console\Commands\SendMessageGive;
 
 class Kernel extends ConsoleKernel
 {
@@ -13,7 +15,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        SendMessage::class,
+        SendMessageGive::class,
     ];
 
     /**
@@ -25,6 +28,11 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        /*$schedule->call('App\Http\Controllers\SmsController@get')->dailyAt('09:00');
+        $schedule->call('App\Http\Controllers\SmsController@give')->dailyAt('18:00');*/
+        //$schedule->call('App\Http\Controllers\SmsController@give')->everyMinute();
+        $schedule->command('send:message')->everyMinute();
+        $schedule->command('send:messagegive')->everyMinute();
     }
 
     /**

@@ -15,6 +15,7 @@ use App\Models\GetComment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use App\Services\Eskiz;
 
 /**
  * Class GetController
@@ -35,6 +36,7 @@ class GetController extends Controller
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index(Request $request){
+
         $gets = Get::select(
             'gets.id',
             'gets.get_time',
@@ -47,6 +49,7 @@ class GetController extends Controller
             'gets.price',
             'gets.total_price',
             'gets.overpayment',
+            'gets.month_pay',
             'gets.notification',
             'gets.comment',
             'gets.get_name',
@@ -84,21 +87,24 @@ class GetController extends Controller
             }
         }
         $phone = $request->phone;
-        $phone = "+99".$phone;
-        $phone = str_replace("(","",$phone);
-        $phone = str_replace(")","",$phone);
-        $phone = str_replace(" ","",$phone);
-        $phone = str_replace("-","",$phone);
+        $phone = str_replace("+","",$phone);
+        $phone = "+".$phone;
+
+
         $request->request->add([
             'status'=>1,
             'notification'=>1,
-            'get_time' => date("Y-m-d H:i:s",strtotime($request->get_time)),
+            'get_time' => date("Y-m-d",strtotime($request->get_time)),
             'phone' => $phone,
         ]);
         Get::create($request->all());
         return redirect()->route('getIndex')->with("success","Saved!");
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function archieve($id){
         Get::where('id',$id)->update([
             'status'=>3,
@@ -106,16 +112,24 @@ class GetController extends Controller
         return back()->with('success',"Arxiv yuklandi!");
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function payment(Request $request){
         GetMoney::create([
             'get_id'=>$request->get_id,
             'price'=>$request->get_price,
-            'get_date'=>date("Y-m-d"),
+            'get_date'=>date("Y-m-d",strtotime($request->get_date)),
             'money_type'=>$request->get_money_type,
         ]);
         return redirect()->route('getIndex')->with("success","Saved money!");
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function comment(Request $request){
         GetComment::create([
             'get_id'=>$request->get_id,
@@ -124,6 +138,10 @@ class GetController extends Controller
         return redirect()->back()->with("success","Saved comment!");
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function changesms(Request $request){
         $get_id = $request->get_id;
         $get = Get::where('id',$get_id)->first();
@@ -138,5 +156,28 @@ class GetController extends Controller
             ]);
             return response()->json(1);
         }
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function getchangephone(Request $request){
+        $id = $request -> get_id;
+        $get = Get::where('id',$id)->update([
+            'phone' => "+".str_replace("+","",$request -> get_phone),
+        ]);
+        return redirect()->back()->with("success","Nomer o'zgartirildi!");
+    }
+    
+    /**
+     * @param $id 
+     */
+    public function getpaymentdelete($id){
+        $getMoney = GetMoney::where('id',$id)->first();
+        if($getMoney){
+            $getMoney->delete();
+        }
+        return redirect()->back()->with("success","To'lov o'chirildi!");
     }
 }

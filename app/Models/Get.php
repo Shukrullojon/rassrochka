@@ -23,6 +23,7 @@ class Get extends Model
         'price',
         'total_price',
         'overpayment',
+        'month_pay',
         'status',
         'notification',
         'comment',
@@ -39,6 +40,7 @@ class Get extends Model
         'money_type' => 'required',
         'price' => 'required',
         'total_price' => 'required',
+        'month_pay' => 'required',
     ];
 
     public static $updateRules = [

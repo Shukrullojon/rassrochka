@@ -46,6 +46,7 @@ class GiveController extends Controller
             'gives.price',
             'gives.total_price',
             'gives.overpayment',
+            'gives.month_pay',
             'gives.notification',
             'gives.comment',
             'gives.give_name',
@@ -83,11 +84,8 @@ class GiveController extends Controller
             }
         }
         $phone = $request->phone;
-        $phone = "+99".$phone;
-        $phone = str_replace("(","",$phone);
-        $phone = str_replace(")","",$phone);
-        $phone = str_replace(" ","",$phone);
-        $phone = str_replace("-","",$phone);
+        $phone = str_replace("+","",$phone);
+        $phone = "+".$phone;
 
         $request->request->add([
             'status'=>1,
@@ -119,7 +117,7 @@ class GiveController extends Controller
         GiveMoney::create([
             'give_id'=>$request->give_id,
             'price'=>$request->give_price,
-            'give_date'=>date("Y-m-d"),
+            'give_date'=>date("Y-m-d",strtotime($request->give_date)),
             'money_type'=>$request->give_money_type,
         ]);
         return redirect()->route('giveIndex')->with("success","Saved money!");
@@ -155,5 +153,28 @@ class GiveController extends Controller
             ]);
             return response()->json(1);
         }
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function givechangephone(Request $request){
+        $id = $request -> give_id;
+        $give = Give::where('id',$id)->update([
+            'phone' => "+".str_replace("+","",$request -> give_phone),
+        ]);
+        return redirect()->back()->with("success","Nomer o'zgartirildi!");
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function givepaymentdelete($id){
+        $giveMoney = GiveMoney::where('id',$id)->first();
+        if($giveMoney){
+            $giveMoney->delete();
+        }
+        return redirect()->back()->with("success","To'lov o'chirildi!");
     }
 }

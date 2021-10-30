@@ -61,6 +61,15 @@
             </ul>
         </li>
 
+        <li class="nav-item">
+            <a href="{{ route('userIndex') }}" class="nav-link {{ Request::is('user*') ? 'active':''}}">
+                <i class="nav-icon fas fa-user"></i>
+                <p>
+                    Users
+                </p>
+            </a>
+        </li>
+
         <li class="nav-item has-treeview">
             <a href="" class="nav-link">
                 <i class="fas fa-palette"></i>

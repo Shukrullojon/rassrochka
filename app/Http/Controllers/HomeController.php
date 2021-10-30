@@ -7,6 +7,7 @@ use App\Models\Get;
 use App\Models\Give;
 use App\Models\GetMoney;
 use App\Models\GiveMoney;
+use App\Services\Eskiz;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
@@ -48,6 +49,7 @@ class HomeController extends Controller
             'gets.total_price',
             'gets.overpayment',
             'gets.get_name',
+            'gets.month_pay',
             DB::raw('sum(get_money.price) as get_price')
         )->leftJoin('get_money',function ($join){
             $join->on('gets.id','=','get_money.get_id');
@@ -67,6 +69,7 @@ class HomeController extends Controller
             'gets.total_price',
             'gets.overpayment',
             'gets.get_name',
+            'gets.month_pay',
             DB::raw('sum(get_money.price) as get_price')
         )->leftJoin('get_money',function ($join){
             $join->on('gets.id','=','get_money.get_id');
@@ -86,6 +89,7 @@ class HomeController extends Controller
             'gives.total_price',
             'gives.overpayment',
             'gives.give_name',
+            'gives.month_pay',
             DB::raw('sum(give_money.price) as give_price')
         )->leftJoin('give_money',function ($join){
             $join->on('gives.id','=','give_money.give_id');
@@ -96,10 +100,24 @@ class HomeController extends Controller
             ->orderByDesc('gives.id')
             ->get();
 
-        //$today_month_give = Give::where('status',1)->where('lifetime_type',1)->where('day',date('d'))->get();
-        $today_week_give = Give::where('status',1)->where('lifetime_type',2)->where('day',$day_number)->get();
-
-        //dd($today_week_give);
+        $today_week_give = Give::select(
+            'gives.id',
+            'gives.product_name',
+            'gives.money_type',
+            'gives.price',
+            'gives.total_price',
+            'gives.overpayment',
+            'gives.give_name',
+            'gives.month_pay',
+            DB::raw('sum(give_money.price) as give_price')
+        )->leftJoin('give_money',function ($join){
+            $join->on('gives.id','=','give_money.give_id');
+        })->groupBy('gives.id')
+            ->where('status',1)
+            ->where('lifetime_type',2)
+            ->where('day',$day_number)
+            ->orderByDesc('gives.id')
+            ->get();
 
         return view('home.index',[
             'today_month_get'=>$today_month_get,
@@ -109,6 +127,10 @@ class HomeController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function payment(Request $request){
         if($request->has("get_id")){
             GetMoney::create([

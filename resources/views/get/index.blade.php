@@ -18,14 +18,18 @@
                     <div class="card">
                         <form action="{{ route("getIndex") }}" method="GET">
                             <div class="row">
-                                <div class="col-10">
+                                <div class="col-8">
                                     <input type="text" class="form-control" name="search" placeholder="Nomi">
                                 </div>
-                                <div class="col-1">
-                                    <button type="submit" class="btn btn-primary form-control">Search</button>
+                                <div class="col-2">
+                                    <button type="submit" class="btn btn-primary form-control">
+                                        <i class="fa fa-search"></i>
+                                    </button>
                                 </div>
-                                <div class="col-1">
-                                    <a class="btn btn-danger form-control" href="{{ route("getIndex") }}">Clear</a>
+                                <div class="col-2">
+                                    <a class="btn btn-danger form-control" href="{{ route("getIndex") }}">
+                                        <i class="fa fa-broom"></i>
+                                    </a>
                                 </div>
                             </div>
                         </form>
@@ -39,26 +43,63 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="row">
-                                <div class="col-10">
+                                <div class="col-8">
                                     <p>{{ $get->get_name }}</p>
                                         <p>Ostatka: {{ number_format(($get->overpayment+$get->get_price)-$get->total_price) }} @if($get->money_type == 1) $ @else so'm @endif</p>
                                 </div>
-                                <div class="col-2">
+                                <div class="col-4">
                                     <button class="float-right btn btn-success">
                                         <a href="tel:{{ $get->phone }}">
                                             <i style="color: white" class="fas fa-phone-alt"></i>
                                         </a>
                                     </button>
+
+                                    <button type="button" style="margin-left: 17px" class="btn btn-primary" data-toggle="modal" data-target="#modalChangePhone{{$get->id}}">
+                                        <i style="color: white" class="fas fa-edit"></i>
+                                    </button>
+
+                                    <div class="modal fade" id="modalChangePhone{{$get->id}}" role="dialog" aria-labelledby="exampleModalCenterTitle">
+                                        <div class="modal-dialog">
+                                            <div class="modal-body">
+                                                <form action="{{ route('getChangePhone') }}" method="POST">
+                                                    @csrf
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalCenterTitle">
+                                                                <p>{{ $get->phone }}</p>
+                                                            </h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <input type="hidden" name="get_id" value="{{ $get->id }}">
+                                                            <label>Yangi nomer</label>
+                                                            <input type="number" name="get_phone" class="form-control" placeholder="Yangi nomer" required>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-primary">Save</button>
+                                                        </div>
+                                                    </div>
+                                                </form>]
+                                            </div>
+                                            <!-- /.modal-content -->
+                                        </div>
+                                        <!-- /.modal-dialog -->
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
                         <div class="card-body">
-                            <p>Berilgan vaqt: {{ date("Y.m.d",strtotime($get->get_time)) }}</p>
+                            <p>Berilgan vaqt: {{ date("d.m.Y",strtotime($get->get_time)) }}</p>
                             <p>Sotilgan mulk: {{ $get->product_name }}</p>
                             <p>Sotilgan muddat: {{ $get->product_lifetime }} @if($get->lifetime_type == 1) oy @else hafta @endif</p>
                             <p>Tannarx: {{ number_format($get->price) }} @if($get->money_type == 1) $ @else so'm @endif</p>
                             <p>Umumiy narx: {{ number_format($get->total_price) }} @if($get->money_type == 1) $ @else so'm @endif</p>
                             <p>Peredoplata: {{ number_format($get->overpayment) }} @if($get->money_type == 1) $ @else so'm @endif</p>
+                            <p>Oylik to'lov: {{ number_format($get->month_pay) }} @if($get->money_type == 1) $ @else so'm @endif</p>
                         </div>
                         <div class="card-footer">
                             <div class="row">
@@ -85,7 +126,10 @@
                                                         @csrf
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalCenterTitle">{{ $get->product_name }}</h5>
+                                                                <h5 class="modal-title" id="exampleModalCenterTitle">
+                                                                    <p>{{ $get->product_name }}</p>
+                                                                    <p>Oylik to'lov: {{ number_format($get->month_pay) }} @if($get->money_type == 1) $ @else so'm @endif</p>
+                                                                </h5>
                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                     <span aria-hidden="true">&times;</span>
                                                                 </button>
@@ -93,14 +137,14 @@
                                                             <div class="modal-body">
                                                                 <input type="hidden" name="get_id" value="{{ $get->id }}">
                                                                 <input type="hidden" name="get_money_type" value="{{ $get->money_type }}">
-                                                                <label>Narxi</label>
-                                                                <input type="number" name="get_price" class="form-control" placeholder="Olingan narx" required>
+                                                                <label>Olingan pul</label>
+                                                                <input type="number" name="get_price" class="form-control" placeholder="Olingan pul" required>
                                                                 <label>Vaqti</label>
-                                                                <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                                                                    <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                                                                <div class="input-group date reservationdate" id="" data-target-input="nearest">
+                                                                    <div class="input-group-append" data-target=".reservationdate" data-toggle="datetimepicker">
                                                                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                                                     </div>
-                                                                    <input required type="text" value="{{ old('get_date') }}" name="get_date" class="form-control datetimepicker-input @error('get_date') is-invalid @enderror" data-target="#reservationdate"/>
+                                                                    <input required type="text" value="{{ old('get_date') }}" name="get_date" class="form-control datetimepicker-input @error('get_date') is-invalid @enderror" data-target=".reservationdate"/>
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
@@ -130,6 +174,10 @@
                                                     @php $true = 0; @endphp
                                                     <li class="list-group-item">
                                                         {{ date("d/m/y",strtotime($m->get_date)) }} - {{ number_format($m->price) }} @if($m->money_type == 1) $ @else so'm @endif
+
+                                                        <a href="{{ route('getPaymentDelete',$m->id) }}" onclick="return confirm('To\'lovni o\'chirmoqchimisiz?')" class="btn btn-danger">
+                                                            <i class="fa fa-trash"></i>
+                                                        </a>
                                                     </li>
                                                 @endforeach
                                             @endif
@@ -217,8 +265,8 @@
         });
 
         //Date picker
-        $('#reservationdate').datetimepicker({
-            format: 'L'
+        $('.reservationdate').datetimepicker({
+            format:'DD.MM.YYYY',
         });
     </script>
 @endsection

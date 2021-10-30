@@ -18,14 +18,18 @@
                     <div class="card">
                         <form action="{{ route("giveIndex") }}" method="GET">
                             <div class="row">
-                                <div class="col-10">
+                                <div class="col-8">
                                     <input type="text" class="form-control" name="search" placeholder="Nomi">
                                 </div>
-                                <div class="col-1">
-                                    <button type="submit" class="btn btn-primary form-control">Search</button>
+                                <div class="col-2">
+                                    <button type="submit" class="btn btn-primary form-control">
+                                        <i class="fa fa-search"></i>
+                                    </button>
                                 </div>
-                                <div class="col-1">
-                                    <a class="btn btn-danger form-control" href="{{ route("giveIndex") }}">Clear</a>
+                                <div class="col-2">
+                                    <a class="btn btn-danger form-control" href="{{ route("giveIndex") }}">
+                                        <i class="fa fa-broom"></i>
+                                    </a>
                                 </div>
                             </div>
                         </form>
@@ -39,27 +43,63 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="row">
-                                <div class="col-10">
+                                <div class="col-8">
                                     <p>{{ $give->give_name }}</p>
                                     <p>Ostatka: {{ number_format(($give->overpayment+$give->give_price)-$give->total_price) }} @if($give->money_type == 1) $ @else so'm @endif</p>
                                 </div>
-                                <div class="col-2">
+                                <div class="col-4">
                                     <button class="float-right btn btn-success">
                                         <a href="tel:{{ $give->phone }}">
                                             <i style="color: white" class="fas fa-phone-alt"></i>
                                         </a>
                                     </button>
+
+                                    <button type="button" style="margin-left: 17px" class="btn btn-primary" data-toggle="modal" data-target="#modalChangePhone{{$give->id}}">
+                                        <i style="color: white" class="fas fa-edit"></i>
+                                    </button>
+
+                                    <div class="modal fade" id="modalChangePhone{{$give->id}}" role="dialog" aria-labelledby="exampleModalCenterTitle">
+                                        <div class="modal-dialog">
+                                            <div class="modal-body">
+                                                <form action="{{ route('giveChangePhone') }}" method="POST">
+                                                    @csrf
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalCenterTitle">
+                                                                <p>{{ $give->phone }}</p>
+                                                            </h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <input type="hidden" name="give_id" value="{{ $give->id }}">
+                                                            <label>Yangi nomer</label>
+                                                            <input type="number" name="give_phone" class="form-control" placeholder="Yangi nomer" required>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-primary">Save</button>
+                                                        </div>
+                                                    </div>
+                                                </form>]
+                                            </div>
+                                            <!-- /.modal-content -->
+                                        </div>
+                                        <!-- /.modal-dialog -->
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
                         <div class="card-body">
-                            <p>Olingan vaqt: {{ date("Y.m.d",strtotime($give->give_time)) }}</p>
+                            <p>Olingan vaqt: {{ date("d.m.Y",strtotime($give->give_time)) }}</p>
                             <p>Olingan mulk: {{ $give->product_name }}</p>
                             <p>Muddat: {{ $give->product_lifetime }} @if($give->lifetime_type == 1) oy @else hafta @endif</p>
                             <p>Tannarx: {{ number_format($give->price) }} @if($give->money_type == 1) $ @else so'm @endif</p>
                             <p>Umumiy narx: {{ number_format($give->total_price) }} @if($give->money_type == 1) $ @else so'm @endif</p>
                             <p>Peredoplata: {{ number_format($give->overpayment) }} @if($give->money_type == 1) $ @else so'm @endif</p>
-                            <p>Ostatka: {{ number_format(($give->overpayment+$give->give_price)-$give->total_price) }}</p>
+                            <p>Oylik to'lov: {{ number_format($give->month_pay) }} @if($give->money_type == 1) $ @else so'm @endif</p>
                         </div>
                         <div class="card-footer">
                             <div class="row">
@@ -86,7 +126,10 @@
                                                         @csrf
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalCenterTitle">{{ $give->product_name }}</h5>
+                                                                <h5 class="modal-title" id="exampleModalCenterTitle">
+                                                                    <p>{{ $give->product_name }}</p>
+                                                                    <p>Oylik to'lov: {{ number_format($give->month_pay) }} @if($give->money_type == 1) $ @else so'm @endif</p>
+                                                                </h5>
                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                     <span aria-hidden="true">&times;</span>
                                                                 </button>
@@ -94,15 +137,16 @@
                                                             <div class="modal-body">
                                                                 <input type="hidden" name="give_id" value="{{ $give->id }}">
                                                                 <input type="hidden" name="give_money_type" value="{{ $give->money_type }}">
-                                                                <label>Narxi</label>
-                                                                <input type="number" name="give_price" class="form-control" placeholder="Narx" required>
+                                                                <label>Berilgan pul</label>
+                                                                <input type="number" name="give_price" class="form-control" placeholder="Berilgan pul" required>
                                                                 <label>Vaqti</label>
-                                                                <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                                                                    <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                                                                <div class="input-group date reservationdate" id="" data-target-input="nearest">
+                                                                    <div class="input-group-append" data-target=".reservationdate" data-toggle="datetimepicker">
                                                                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                                                     </div>
-                                                                    <input required type="text" value="{{ old('give_date') }}" name="give_date" class="form-control datetimepicker-input @error('give_date') is-invalid @enderror" data-target="#reservationdate"/>
+                                                                    <input required type="text" value="{{ old('give_date') }}" name="give_date" class="form-control datetimepicker-input @error('give_date') is-invalid @enderror" data-target=".reservationdate"/>
                                                                 </div>
+
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -132,6 +176,10 @@
                                                     @php $true = 0; @endphp
                                                     <li class="list-group-item">
                                                         {{ date("d/m/y",strtotime($m->give_date)) }} - {{ number_format($m->price) }} @if($m->money_type == 1) $ @else so'm @endif
+
+                                                        <a href="{{ route('givePaymentDelete',$m->id) }}" onclick="return confirm('To\'lovni o\'chirmoqchimisiz?')" class="btn btn-danger">
+                                                            <i class="fa fa-trash"></i>
+                                                        </a>
                                                     </li>
                                                 @endforeach
                                             @endif
@@ -218,8 +266,8 @@
         });
 
         //Date picker
-        $('#reservationdate').datetimepicker({
-            format: 'L'
+        $('.reservationdate').datetimepicker({
+            format:'DD.MM.YYYY',
         });
     </script>
 @endsection

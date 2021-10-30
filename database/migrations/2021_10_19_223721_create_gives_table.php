@@ -26,6 +26,7 @@ class CreateGivesTable extends Migration
             $table->double('price',15,2)->nullable()->comment('Tannarxi');
             $table->double('total_price',15,2)->nullable()->comment('Umumiy narxi');
             $table->double('overpayment',15,2)->nullable()->comment('Oldindan bergan narx');
+            $table->double('month_pay',15,2)->nullable()->comment("Oyiga qanchadan to'lashi");
             $table->tinyInteger('status')->nullable()->comment('Status');
             $table->tinyInteger('notification')->nullable()->comment('Sms xabarnoma yuborish, yubormaslik');
             $table->string('comment',250)->nullable()->comment('Xabarnoma qoldirish');
