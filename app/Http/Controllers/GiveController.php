@@ -131,6 +131,8 @@ class GiveController extends Controller
         GiveComment::create([
             'give_id'=>$request->give_id,
             'comment'=>$request->comment,
+            'send_date' => date("Y-m-d",strtotime($request->send_date)),
+            'sms' => $request -> sms,
         ]);
         return redirect()->back()->with("success","Saved comment!");
     }

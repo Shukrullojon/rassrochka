@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Get;
 use App\Models\Give;
 use App\Models\GetMoney;
+use App\Models\GetComment;
+use App\Models\GiveComment;
 use App\Models\GiveMoney;
 use App\Services\Eskiz;
 use Illuminate\Support\Facades\DB;
@@ -119,11 +121,16 @@ class HomeController extends Controller
             ->orderByDesc('gives.id')
             ->get();
 
+        $getComment = GetComment::where('send_date',date("Y-m-d"))->get();
+        $giveComment = GiveComment::where('send_date',date("Y-m-d"))->get();
+
         return view('home.index',[
             'today_month_get'=>$today_month_get,
             'today_week_get'=>$today_week_get,
             'today_month_give'=>$today_month_give,
             'today_week_give'=>$today_week_give,
+            'getComment' => $getComment,
+            'giveComment' => $giveComment,
         ]);
     }
 

@@ -49,7 +49,7 @@ class SendMessageGive extends Command
             "Sat"=>'6',
             "Sun"=>'7',
         ];
-        $day_number = $arrayDay[date("D")];
+        $day_number = $arrayDay[date("D",strtotime("+1 day"))];
 
         $giveMonth = Give::select(
             'gives.id',
@@ -62,11 +62,9 @@ class SendMessageGive extends Command
         )->where('status',1)
             ->where('lifetime_type',1)
             ->where('notification',1)
-            ->where('day',date('d'))
+            ->where('day',date('d',strtotime("+1 days")))
             ->where('created_at','<',date("Y-m-d", strtotime("-10 days")))
             ->get();
-
-        dd($giveMonth);
 
         $giveWeek = Give::select(
             'gives.id',

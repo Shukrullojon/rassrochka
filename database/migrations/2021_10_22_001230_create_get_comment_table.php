@@ -15,8 +15,10 @@ class CreateGetCommentTable extends Migration
     {
         Schema::create('get_comment', function (Blueprint $table) {
             $table->id();
-            $table->integer('get_id');
-            $table->string('comment');
+            $table->integer('get_id')->nullable();
+            $table->string('comment')->nullable();
+            $table->timestamp("send_date")->nullable();
+            $table->tinyInteger('sms')->nullable();
             $table->timestamps();
         });
     }

@@ -134,6 +134,8 @@ class GetController extends Controller
         GetComment::create([
             'get_id'=>$request->get_id,
             'comment'=>$request->comment,
+            'send_date' => date("Y-m-d",strtotime($request->send_date)),
+            'sms' => $request -> sms,
         ]);
         return redirect()->back()->with("success","Saved comment!");
     }
@@ -169,9 +171,9 @@ class GetController extends Controller
         ]);
         return redirect()->back()->with("success","Nomer o'zgartirildi!");
     }
-    
+
     /**
-     * @param $id 
+     * @param $id
      */
     public function getpaymentdelete($id){
         $getMoney = GetMoney::where('id',$id)->first();

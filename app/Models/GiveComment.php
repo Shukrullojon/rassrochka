@@ -14,8 +14,14 @@ class GiveComment extends Model
     protected $fillable = [
         'give_id',
         'comment',
+        'send_date',
+        'sms',
         'created_at',
         'updated_at',
     ];
+
+    public function give(){
+        return $this -> belongsTo(Give::class);
+    }
 }
 

@@ -27,12 +27,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
-        /*$schedule->call('App\Http\Controllers\SmsController@get')->dailyAt('09:00');
-        $schedule->call('App\Http\Controllers\SmsController@give')->dailyAt('18:00');*/
-        //$schedule->call('App\Http\Controllers\SmsController@give')->everyMinute();
-        $schedule->command('send:message')->everyMinute();
-        $schedule->command('send:messagegive')->everyMinute();
+        $schedule->command('send:message')->dailyAt("09:00");
+        $schedule->command('send:messagegive')->dailyAt("18:00");
     }
 
     /**

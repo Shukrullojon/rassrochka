@@ -17,6 +17,8 @@ class CreateGiveCommentTable extends Migration
             $table->id();
             $table->integer('give_id');
             $table->string('comment');
+            $table->timestamp("send_date")->nullable();
+            $table->tinyInteger('sms')->nullable();
             $table->timestamps();
         });
     }

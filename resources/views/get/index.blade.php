@@ -197,7 +197,7 @@
                                             <i class="fa fa-plus-square"></i>
                                         </button>
                                         @foreach($get->com as $c)
-                                            <p>{{ $c->comment }}</p>
+                                            <p>{{ $c->comment }} {{ date("d/m/Y",strtotime($c->send_date)) }} @if($c->sms) <i style="color: green" class="fa fa-envelope"></i>  @else <i style="color: red" class="fa fa-envelope"></i>  @endif</p>
                                         @endforeach
                                         <p>{{ $get->comment }}</p>
                                         <div class="modal fade" id="modalComment{{$get->id}}" role="dialog" aria-labelledby="exampleModalCenterTitle">
@@ -216,6 +216,26 @@
                                                                 <input type="hidden" name="get_id" value="{{ $get->id }}">
                                                                 <label>Comment</label>
                                                                 <textarea name="comment" required class="form-control" rows="3"></textarea>
+
+                                                                <label>Vaqti</label>
+                                                                <div class="input-group date reservationdate" id="" data-target-input="nearest">
+                                                                    <div class="input-group-append" data-target=".reservationdate" data-toggle="datetimepicker">
+                                                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                                    </div>
+                                                                    <input required type="text" value="{{ old('send_date') }}" name="send_date" class="form-control datetimepicker-input @error('send_date') is-invalid @enderror" data-target=".reservationdate"/>
+                                                                </div>
+
+                                                                <fieldset class="form-group">
+                                                                    <label for="basicInput">Sms</label>
+                                                                    <select name="sms" class="form-control">
+                                                                        <option value="0">Sms yuborilmasin</option>
+                                                                        <option value="1">Sms yuborilsin</option>
+                                                                    </select>
+                                                                    @error('sms')
+                                                                    <p style="color: red" class="error">{{ $message }}</p>
+                                                                    @enderror
+                                                                </fieldset>
+
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
