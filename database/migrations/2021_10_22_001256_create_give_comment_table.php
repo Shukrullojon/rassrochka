@@ -19,6 +19,7 @@ class CreateGiveCommentTable extends Migration
             $table->string('comment');
             $table->timestamp("send_date")->nullable();
             $table->tinyInteger('sms')->nullable();
+            $table->double('price',15,2)->nullable();
             $table->timestamps();
         });
     }

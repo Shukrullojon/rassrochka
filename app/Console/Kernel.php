@@ -6,6 +6,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Console\Commands\SendMessage;
 use App\Console\Commands\SendMessageGive;
+use App\Console\Commands\SendCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -17,6 +18,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         SendMessage::class,
         SendMessageGive::class,
+        SendCommand::class,
     ];
 
     /**
@@ -29,6 +31,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('send:message')->dailyAt("09:00");
         $schedule->command('send:messagegive')->dailyAt("18:00");
+        $schedule->command('send:command')->everyMinute();
     }
 
     /**

@@ -4,6 +4,8 @@
     @php
         $first = false;
         $second = false;
+        $third = false;
+        $four = false;
     @endphp
 
     <div id="error_transaction" style="" class="card">
@@ -264,13 +266,82 @@
                     </div>
                 </div>
             @endif
+
+            @if(count($getComment) > 0 or count($giveComment) > 0)
+                <div class="" id="third_tr">
+                    <div class="card-header"><b>Bugun olinishi kerak(Comment)</b></div>
+                    <div class="card-body">
+                        <table class="table table-hover">
+                            <tr>
+                                <th>Nomi</th>
+                                <th>Mulk</th>
+                                <th>Comment</th>
+                                <th>Narx</th>
+                                <th></th>
+                            </tr>
+                            @foreach($getComment as $gc)
+                                    @php $third = true; @endphp
+                                    <tr>
+                                        <td>
+                                            @if(!empty($gc->get->get_name)){{ $gc->get->get_name }}@endif
+                                        </td>
+                                        <td>
+                                            @if(!empty($gc->get->product_name)){{ $gc->get->product_name }}@endif
+                                        </td>
+                                        <td>
+                                            {{ $gc->comment }}
+                                        </td>
+                                        <td>{{ number_format($gc->price) }}
+                                            @if(!empty($gc->price))
+                                                @if(!empty($gc->get->money_type))
+                                                    @if($gc->get->money_type == 1) $ @else so'm @endif
+                                                @endif
+                                            @endif
+                                        </td>
+                                    </tr>
+                            @endforeach
+                        </table>
+                    </div>
+                </div>
+            @endif
+
+            @if(count($giveComment) > 0)
+                <div class="" id="four_tr">
+                    <div class="card-header"><b>Bugun berilishi kerak(Comment)</b></div>
+                    <div class="card-body">
+                        <table class="table table-hover">
+                            <tr>
+                                <th>Nomi</th>
+                                <th>Mulk</th>
+                                <th>Comment</th>
+                                <th>Narx</th>
+                                <th></th>
+                            </tr>
+                            @foreach($giveComment as $gc)
+                                @php $four = true; @endphp
+                                <tr>
+                                    <td>@if(!empty($gc->give->give_name)) {{ $gc->give->give_name }} @endif</td>
+                                    <td>@if(!empty($gc->give->product_name)) {{ $gc->give->product_name }} @endif</td>
+                                    <td>{{ $gc->comment }}</td>
+                                    <td>{{ number_format($gc->price) }}
+                                        @if(!empty($gc->price))
+                                            @if(!empty($gc->give->money_type))
+                                                @if($gc->give->money_type == 1) $ @else so'm @endif
+                                            @endif
+                                        @endif</td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    </div>
+                </div>
+            @endif
         </div>
 
 
 
         @section('scripts')
             <script>
-                @if($first or $second)
+                @if($first or $second or $third or $four)
                     $("#error_transaction").css("display", "none");
                 @endif
 
@@ -282,11 +353,17 @@
                     $("#second_tr").css("display", "none");
                 @endif
 
+                @if(!$third)
+                    $("#third_tr").css("display", "none");
+                @endif
+
+                @if(!$four)
+                    $("#four_tr").css("display", "none");
+                @endif
                 $('.reservationdate').datetimepicker({
                     format:'DD.MM.YYYY',
                 });
             </script>
         @endsection
-
     </div>
 @endsection

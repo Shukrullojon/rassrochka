@@ -135,6 +135,7 @@ class GetController extends Controller
             'get_id'=>$request->get_id,
             'comment'=>$request->comment,
             'send_date' => date("Y-m-d",strtotime($request->send_date)),
+            'price' => $request->price,
             'sms' => $request -> sms,
         ]);
         return redirect()->back()->with("success","Saved comment!");

@@ -196,8 +196,11 @@
                                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalComment{{$get->id}}">
                                             <i class="fa fa-plus-square"></i>
                                         </button>
+                                        @php $i = 1; @endphp
                                         @foreach($get->com as $c)
-                                            <p>{{ $c->comment }} {{ date("d/m/Y",strtotime($c->send_date)) }} @if($c->sms) <i style="color: green" class="fa fa-envelope"></i>  @else <i style="color: red" class="fa fa-envelope"></i>  @endif</p>
+                                            <p>
+                                                {{ $i++ }}.{{ $c->comment }} {{ $c->price }} @if(!empty($c->price)) @if($get->money_type == 1) $ @else so'm @endif @endif -  {{ date("d/m/Y",strtotime($c->send_date)) }} -  @if($c->sms) <i style="color: green" class="fa fa-envelope"></i>  @else <i style="color: red" class="fa fa-envelope"></i>  @endif
+                                            </p>
                                         @endforeach
                                         <p>{{ $get->comment }}</p>
                                         <div class="modal fade" id="modalComment{{$get->id}}" role="dialog" aria-labelledby="exampleModalCenterTitle">
@@ -224,6 +227,14 @@
                                                                     </div>
                                                                     <input required type="text" value="{{ old('send_date') }}" name="send_date" class="form-control datetimepicker-input @error('send_date') is-invalid @enderror" data-target=".reservationdate"/>
                                                                 </div>
+
+                                                                <fieldset class="form-group">
+                                                                    <label for="basicInput">Narx</label>
+                                                                    <input type="number" value="{{ old('price') }}" name="price" class="form-control @error('price') is-invalid @enderror" id="basicInput" placeholder="Narx">
+                                                                    @error('price')
+                                                                        <p style="color: red" class="error">{{ $message }}</p>
+                                                                    @enderror
+                                                                </fieldset>
 
                                                                 <fieldset class="form-group">
                                                                     <label for="basicInput">Sms</label>
