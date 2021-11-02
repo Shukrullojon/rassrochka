@@ -31,7 +31,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('send:message')->dailyAt("09:00");
         $schedule->command('send:messagegive')->dailyAt("18:00");
-        $schedule->command('send:command')->everyMinute();
+        $schedule->command('send:command')->dailyAt("09:00")();
     }
 
     /**
